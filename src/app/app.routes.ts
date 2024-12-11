@@ -25,14 +25,10 @@ export const routes: Routes = [
     { path: 'baja-orden-produccion', component: BajaOrdenProduccionComponent }, 
     { path: 'home', component: HomeComponent },
     { path: 'edit-product', component: EditProductComponent },
-    { path: '', component: InventarioComponent },
-<<<<<<< HEAD
+    { path: '', component: HomeComponent },
     {path: 'productos', component: ProductosComponent},
-    {path: 'nosotros', component: NosotrosComponent}
-=======
-    {path: 'productos', component: ProductosComponent}
-    { path: 'nosotros', component: NosotrosComponent},
-
->>>>>>> 95f72454c6bf4cf1b5e80b7573e6c0601b51c0bb
+    {path: 'nosotros', component: NosotrosComponent},
+    {path: 'productos', component: ProductosComponent},
+    { path: 'nosotros', component: NosotrosComponent}
 ];
 

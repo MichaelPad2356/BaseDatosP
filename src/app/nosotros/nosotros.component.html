@@ -1,45 +1,64 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre Nosotros</title>
-    <link rel="stylesheet" href="nosotros.component.css">
-</head>
-<body>
-    <header>
-        <h1>Sobre Nosotros</h1>
-    </header>
-    <main>
-        <h1>Nuestra Historia</h1>
-        <p>
-            En nuestra organización, nos dedicamos a proporcionar soluciones innovadoras para un mundo cambiante. Fundada en 2010, hemos crecido con el propósito de impactar positivamente en la vida de las personas mediante nuestros productos y servicios.
-        </p>
-        <p>
-            Nuestra filosofía se basa en la calidad, la sostenibilidad y el compromiso con nuestros clientes. Creemos en la importancia de construir relaciones duraderas y en ofrecer valor en todo lo que hacemos.
-        </p>
-        <h2>Conoce a nuestro equipo</h2>
-        <div class="team">
-            <div class="team-member">
-                <img src="../../assets/images/hombre.png" alt="Juan Pérez">
-                <h3>Juan Pérez</h3>
-                <p>CEO y Fundador</p>
-            </div>
-            <div class="team-member">
-                <img src="../../assets/images/mujer.png" alt="Ana Gómez">
-                <h3>Ana Gómez</h3>
-                <p>Directora de Marketing</p>
-            </div>
-            <div class="team-member">
-                <img src="../../assets/images/hombre2.png" alt="Carlos López">
-                <h3>Carlos López</h3>
-                <p>Jefe de Tecnología</p>
-            </div>
-        </div>
-    </main>
-    <footer>
-        <p>&copy; 2024 Nuestra Compañía. Todos los derechos reservados.</p>
-    </footer>
-</body>
-</html>
+<!-- nosotros.component.html -->
+<div class="about-container">
+  <header class="about-header">
+    <h1>Vinos del Valle</h1>
+    <p class="subtitle">La Quintaesencia de la Tradición Vitivinícola</p>
+  </header>
 
+  <section class="history">
+    <div class="section-title">
+      <h2>Nuestra Historia</h2>
+    </div>
+    <div class="history-content">
+      <p>
+        Fundados en 2010 en los fértiles valles de una región privilegiada, Vinos del Valle emerge como un símbolo de excelencia vitivinícola. Cada viñedo cuenta una historia milenaria, cada cosecha representa un compromiso con la perfección.
+      </p>
+      <p>
+        Nuestro legado se construye con pasión, conocimiento ancestral y una búsqueda incesante de la expresión más pura de nuestro terroir. No solo elaboramos vinos, creamos experiencias líquidas que narran la rica herencia de nuestra tierra.
+      </p>
+    </div>
+  </section>
+
+  <section class="team">
+    <div class="section-title">
+      <h2>Maestros Viticultores</h2>
+    </div>
+    <div class="team-grid">
+      @for (member of teamMembers; track member) {
+        <div class="team-member">
+          <div class="member-image-container">
+            <img [src]="member.image" [alt]="member.name">
+          </div>
+          <div class="member-info">
+            <h3>{{ member.name }}</h3>
+            <p class="role">{{ member.role }}</p>
+            <p class="bio">{{ member.bio }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="values">
+    <div class="section-title">
+      <h2>Nuestra Filosofía</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-item">
+        <div class="icon">🍇</div>
+        <h3>Selección Meticulosa</h3>
+        <p>Cada uva es un tesoro. Seleccionamos únicamente los racimos que cumplen con nuestros rigurosos estándares de calidad.</p>
+      </div>
+      <div class="value-item">
+        <div class="icon">🌿</div>
+        <h3>Respeto Ambiental</h3>
+        <p>Nuestra viticultura abraza prácticas sostenibles, preservando la integridad de nuestros viñedos para las generaciones futuras.</p>
+      </div>
+      <div class="value-item">
+        <div class="icon">🏺</div>
+        <h3>Innovación Tradicional</h3>
+        <p>Equilibramos técnicas ancestrales con innovación moderna, creando vinos que son tanto una obra de arte como un tributo a la tradición.</p>
+      </div>
+    </div>
+  </section>
+</div>
