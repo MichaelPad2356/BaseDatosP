@@ -1,0 +1,87 @@
+
+header .navbar {
+    border-bottom: 2px solid #d9534f; /* Borde rojo */
+  }
+  
+  header .navbar-brand img {
+    height: 100px;
+  }
+  
+  header .nav-link {
+    color: #ffffff; /* Texto blanco */
+    margin-right: 20px;
+  }
+  
+  header .nav-link:hover {
+    color: #d9534f; /* Texto rojo al pasar el ratón */
+  }
+  
+  header .fa {
+    font-size: 1.2em;
+    color: #ffffff;
+  }
+  
+  header .fa:hover {
+    color: #d9534f;
+  }
+  
+  .navbar-nav.ml-auto .nav-link {
+    margin-right: 0;
+  }
+  
+  .navbar-nav.ml-auto {
+    display: flex;
+    flex-direction: row;
+  }
+
+  
+.dropdown-menu {
+  background-color: #2c2c2c; /* Fondo negro para el menú desplegable */
+  border: 1px solid #d9534f; /* Borde rojo */
+}
+
+.dropdown-item {
+  color: #ffffff; /* Texto blanco */
+}
+
+.dropdown-item:hover {
+  background-color: #d9534f; /* Fondo rojo al pasar el ratón */
+  color: #ffffff; /* Texto blanco */
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.cart-item-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.cart-item-details {
+  flex-grow: 1;
+}
+
+.cart-item h5 {
+  margin: 0;
+}
+
+.cart-item p {
+  margin: 5px 0;
+}
+
+.btn-remove {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.btn-remove:hover {
+  background-color: #c82333;
+}

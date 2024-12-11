@@ -1,6 +1,7 @@
 <div class="container mt-4">
-    <h2 class="text-center mb-4 titulo">Editar Producto</h2>
-    <div *ngIf="producto">
+  <h2 class="text-center mb-4 titulo">Editar Producto</h2>
+  @if (producto) {
+    <div>
       <form>
         <div class="form-group">
           <label for="nombre">Nombre</label>
@@ -28,5 +29,5 @@
         </div>
       </form>
     </div>
-  </div>
-  
+  }
+</div>
