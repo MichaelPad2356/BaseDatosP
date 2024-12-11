@@ -10,6 +10,7 @@ import { AltaOrdenProduccionComponent } from './alta-orden-produccion/alta-orden
 import { BajaOrdenProduccionComponent } from './baja-orden-produccion/baja-orden-produccion.component';
 import { HomeComponent } from './home/home.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
+import { NosotrosComponent } from './nosotros/nosotros.component';
 
 export const routes: Routes = [
     { path: 'inventario', component: InventarioComponent },
@@ -23,7 +24,8 @@ export const routes: Routes = [
     { path: 'baja-orden-produccion', component: BajaOrdenProduccionComponent }, 
     { path: 'home', component: HomeComponent },
     { path: 'edit-product', component: EditProductComponent },
-    { path: '', component: InventarioComponent }
+    { path: '', component: InventarioComponent },
+    { path: 'nosotros', component: NosotrosComponent},
 
 ];
 
