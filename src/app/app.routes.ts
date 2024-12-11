@@ -11,6 +11,7 @@ import { BajaOrdenProduccionComponent } from './baja-orden-produccion/baja-orden
 import { HomeComponent } from './home/home.component';
 import { ProductosComponent } from './productos/productos.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
+import { NosotrosComponent } from './nosotros/nosotros.component';
 
 export const routes: Routes = [
     { path: 'inventario', component: InventarioComponent },
@@ -26,5 +27,7 @@ export const routes: Routes = [
     { path: 'edit-product', component: EditProductComponent },
     { path: '', component: InventarioComponent },
     {path: 'productos', component: ProductosComponent}
+    { path: 'nosotros', component: NosotrosComponent},
+
 ];
 
