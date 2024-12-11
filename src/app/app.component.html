@@ -2,7 +2,8 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <a class="navbar-brand" href="#">
-        <img src="../assets/images/logo.png" alt="Carnicería Gómez" height="40">
+        <img src="../assets/images/logo.png" alt="Vinos del Valle" height="40">
+        <span class="ml-2 text-white">Vinos del Valle</span>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -10,7 +11,7 @@
       <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link"[routerLink]="['/home']" routerLinkActive="router-link-active" >Inicio</a>
+            <a class="nav-link" [routerLink]="['/home']" routerLinkActive="router-link-active">Inicio</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" [routerLink]="['/inventario']" routerLinkActive="router-link-active">Inventario</a>
@@ -51,22 +52,21 @@
 </header>
 
 <router-outlet></router-outlet>
-
 <footer class="footer bg-dark text-white mt-4">
   <div class="container">
     <div class="row">
       <div class="col-md-4">
-        <h5>Carnicería Gómez</h5>
-        <p>Dirección: Narciso Perales Avila Mina #702, Aguascalientes, Mexico</p>
+        <h5>Vinos del Valle</h5>
+        <p>Dirección: Calle del Vino #123, Aguascalientes, México</p>
         <p>Teléfono: (123) 456-7890</p>
-        <p>Email: contactocarniceriagomez.com</p>
+        <p>Email: contactovinosdelvalle.com</p>
       </div>
       <div class="col-md-4">
         <h5>Enlaces Rápidos</h5>
         <ul class="list-unstyled">
           <li><a href="#" class="text-white">Inicio</a></li>
           <li><a href="#" class="text-white">Sobre Nosotros</a></li>
-          <li><a href="#" class="text-white">Promociones</a></li>
+          <li><a href="#" class="text-white">Catálogo</a></li>
           <li><a href="#" class="text-white">Contacto</a></li>
         </ul>
       </div>
@@ -80,7 +80,7 @@
     </div>
     <div class="row mt-4">
       <div class="col text-center">
-        <p>&copy; 2023 Carnicería Gómez. Todos los derechos reservados.</p>
+        <p>&copy; 2023 Vinos del Valle. Todos los derechos reservados.</p>
       </div>
     </div>
   </div>
