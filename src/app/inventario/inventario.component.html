@@ -1,28 +1,38 @@
 <div class="container mt-4">
   <h2 class="inventory-title text-center mb-4">Inventario de Vinos</h2>
   <div class="row">
-    <div class="col-md-4 mb-4" *ngFor="let vino of vinos">
-      <div class="card">
-        <div class="position-relative">
-          <img [src]="vino.imagen" class="card-img-top" alt="{{ vino.nombre }}">
-          <span *ngIf="vino.tipo === 'Tinto'" class="badge badge-primary position-absolute top-0 end-0">Vino Tinto</span>
-          <span *ngIf="vino.tipo === 'Blanco'" class="badge badge-warning position-absolute top-0 end-0">Vino Blanco</span>
-          <span *ngIf="vino.tipo === 'Rosado'" class="badge badge-secondary position-absolute top-0 end-0">Vino Rosado</span>
-          <span *ngIf="vino.tipo === 'Espumoso'" class="badge badge-info position-absolute top-0 end-0">Vino Espumoso</span>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">{{ vino.nombre }}</h5>
-          <p class="card-text">Cantidad disponible: {{ vino.cantidad }}</p>
-          <p class="card-text">Precio: ${{ vino.precio }}</p>
-          <p class="card-text">Fecha de Ingreso: {{ vino.fechaIngreso }}</p>
-          <p class="card-text">{{ vino.descripcion }}</p>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-primary btn-sm" (click)="onEdit(vino)">Editar</button>
-            <button class="btn btn-danger btn-sm">Eliminar</button>
-            <button class="btn btn-success btn-sm">Agregar</button>
+    @for (vino of vinos; track vino) {
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="position-relative">
+            <img [src]="vino.imagen" class="card-img-top" alt="{{ vino.nombre }}">
+            @if (vino.tipo === 'Tinto') {
+              <span class="badge badge-primary position-absolute top-0 end-0">Vino Tinto</span>
+            }
+            @if (vino.tipo === 'Blanco') {
+              <span class="badge badge-warning position-absolute top-0 end-0">Vino Blanco</span>
+            }
+            @if (vino.tipo === 'Rosado') {
+              <span class="badge badge-secondary position-absolute top-0 end-0">Vino Rosado</span>
+            }
+            @if (vino.tipo === 'Espumoso') {
+              <span class="badge badge-info position-absolute top-0 end-0">Vino Espumoso</span>
+            }
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ vino.nombre }}</h5>
+            <p class="card-text">Cantidad disponible: {{ vino.cantidad }}</p>
+            <p class="card-text">Precio: ${{ vino.precio }}</p>
+            <p class="card-text">Fecha de Ingreso: {{ vino.fechaIngreso }}</p>
+            <p class="card-text">{{ vino.descripcion }}</p>
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-primary btn-sm" (click)="onEdit(vino)">Editar</button>
+              <button class="btn btn-danger btn-sm">Eliminar</button>
+              <button class="btn btn-success btn-sm">Agregar</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    }
   </div>
 </div>

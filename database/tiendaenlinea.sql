@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:33065
--- Tiempo de generación: 11-12-2024 a las 00:26:46
+-- Tiempo de generación: 11-12-2024 a las 02:57:30
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -221,18 +221,19 @@ CREATE TABLE `producto` (
   `Descripcion` text DEFAULT NULL,
   `Precio` decimal(10,2) NOT NULL,
   `Stock` int(11) NOT NULL,
-  `ID_Categoria` int(11) DEFAULT NULL
+  `ID_Categoria` int(11) DEFAULT NULL,
+  `URL_Imagen` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `producto`
 --
 
-INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Descripcion`, `Precio`, `Stock`, `ID_Categoria`) VALUES
-(1, 'Cabernet Sauvignon', 'Vino tinto con notas a frutos rojos y madera.', 450.00, 50, 1),
-(2, 'Chardonnay', 'Vino blanco fresco con aromas cítricos.', 350.00, 40, 2),
-(3, 'Rosé', 'Vino rosado con sabores frutales y florales.', 300.00, 30, 3),
-(4, 'Prosecco', 'Vino espumoso italiano, ideal para celebraciones.', 500.00, 20, 4);
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Descripcion`, `Precio`, `Stock`, `ID_Categoria`, `URL_Imagen`) VALUES
+(1, 'Cabernet Sauvignon', 'Vino tinto con notas a frutos rojos y madera.', 450.00, 50, 1, NULL),
+(2, 'Chardonnay', 'Vino blanco fresco con aromas cítricos.', 350.00, 40, 2, NULL),
+(3, 'Rosé', 'Vino rosado con sabores frutales y florales.', 300.00, 30, 3, NULL),
+(4, 'Prosecco', 'Vino espumoso italiano, ideal para celebraciones.', 500.00, 20, 4, NULL);
 
 -- --------------------------------------------------------
 
