@@ -1,0 +1,126 @@
+:root {
+    --color-dark: #2c2c2c;
+    --color-red: #d9534f;
+    --color-white: #ffffff;
+    --color-text-dark: #333333;
+    --transition-smooth: all 0.3s ease-in-out;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: var(--color-white);
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+header h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+nav {
+    background-color: var(--color-dark);
+    padding: 15px 0;
+    text-align: center;
+}
+
+nav a {
+    color: var(--color-white);
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+}
+
+nav a:hover {
+    color: var(--color-red);
+    transform: scale(1.05);
+}
+
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: var(--color-dark);
+    border: 1px solid var(--color-red);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+h1, h2 {
+    color: var(--color-white);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+h1 {
+    border-bottom: 2px solid var(--color-red);
+    padding-bottom: 10px;
+}
+
+.team {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.team-member {
+    text-align: center;
+    max-width: 250px;
+    background-color: var(--color-dark);
+    border: 1px solid var(--color-red);
+    padding: 20px;
+    border-radius: 10px;
+    transition: var(--transition-smooth);
+}
+
+.team-member:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+.team-member img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--color-red);
+}
+
+.team-member h3 {
+    color: var(--color-white);
+    margin-top: 15px;
+}
+
+.team-member p {
+    color: var(--color-red);
+}
+
+footer {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid var(--color-red);
+}
+
+@media (max-width: 768px) {
+    main {
+        margin: 20px;
+        padding: 20px;
+    }
+    .team-member {
+        max-width: 100%;
+    }
+}
