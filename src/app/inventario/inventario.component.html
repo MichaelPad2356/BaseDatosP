@@ -1,38 +1,32 @@
-<div class="container mt-4">
-  <h2 class="inventory-title text-center mb-4">Inventario de Productos</h2>
-  
-  @if (productos.length > 0) {
-    <div class="row">
-      @for (producto of productos; track producto) {
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <div class="position-relative">
-              <img [src]="'../../assets/images/' + producto.URL_Imagen" alt="{{producto.Nombre}}" class="card-img-top producto-img">
+<h2 class="inventory-title text-center mb-4">Inventario de Productos</h2>
 
-              <!-- Etiquetas adicionales según el tipo de producto (puedes agregar lógica para estos según sea necesario) -->
-              <!-- Ejemplo: 
-              <span class="badge badge-primary position-absolute top-0 end-0">Producto Especial</span>
-              -->
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">{{producto.Nombre}}</h5>
-              <p class="card-text">{{producto.Descripcion}}</p>
-              <p class="card-text">Precio: ${{producto.Precio}}</p>
-              <p class="card-text">Stock disponible: {{producto.Stock}}</p>
-              <div class="d-flex justify-content-between">
-                <!-- Aquí puedes agregar botones para editar, eliminar o agregar productos si es necesario -->
-                <!-- Ejemplo:
-                <button class="btn btn-primary btn-sm" (click)="onEdit(producto)">Editar</button>
-                -->
-                <button class="btn btn-danger btn-sm">Eliminar</button>
-                <button class="btn btn-success btn-sm">Agregar</button>
-              </div>
+@if (productos.length > 0) {
+  <div class="row">
+    @for (producto of productos; track producto) {
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="position-relative">
+            <img [src]="'../../assets/images/' + producto.URL_Imagen" alt="{{producto.Nombre}}" class="card-img-top producto-img">
+
+            <!-- Etiquetas adicionales según el tipo de producto -->
+            <!-- Ejemplo: 
+            <span class="badge badge-primary position-absolute top-0 end-0">Producto Especial</span>
+            -->
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{producto.Nombre}}</h5>
+            <p class="card-text">{{producto.Descripcion}}</p>
+            <p class="card-text">Precio: ${{producto.Precio}}</p>
+            <p class="card-text">Stock disponible: {{producto.Stock}}</p>
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-danger btn-sm">Eliminar</button>
+              <button class="btn btn-success btn-sm">Agregar</button>
             </div>
           </div>
         </div>
-      }
-    </div>
-  } @else {
-    <p>No hay productos disponibles.</p>
-  }
-</div> <!-- Cierre correspondiente a la apertura de la clase "container mt-4" -->
+      </div>
+    }
+  </div>
+} @else {
+  <p>No hay productos disponibles.</p>
+}
