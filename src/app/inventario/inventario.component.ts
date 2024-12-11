@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inventario',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './inventario.component.html',
   styleUrl: './inventario.component.css'
 })

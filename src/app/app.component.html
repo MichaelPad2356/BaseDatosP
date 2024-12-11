@@ -11,45 +11,42 @@
       <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/home']" routerLinkActive="router-link-active">Inicio</a>
+            <a class="nav-link" [routerLink]="['/home']">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/inventario']" routerLinkActive="router-link-active">Inventario</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Altas/Bajas
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" [routerLink]="['/alta-proveedores']" routerLinkActive="router-link-active">Alta-Proveedores</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/baja-proveedores']" routerLinkActive="router-link-active">Baja-Proveedores</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/alta-producto']" routerLinkActive="router-link-active">Alta-Productos</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/baja-producto']" routerLinkActive="router-link-active">Baja-Productos</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/alta-empleado']" routerLinkActive="router-link-active">Alta-Empleado</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/baja-empleado']" routerLinkActive="router-link-active">Baja-Empleado</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/alta-orden-produccion']" routerLinkActive="router-link-active">Alta-Orden de produccion</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/baja-orden-produccion']" routerLinkActive="router-link-active">Baja-Orden de produccion</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Facturas
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item">Ventas</a></li>
-              <li><a class="dropdown-item">Compras</a></li>
-            </ul>
+            <a class="nav-link" [routerLink]="['/inventario']">Inventario</a>
           </li>
         </ul>
       </div>
       <div class="navbar-nav ml-auto">
-        <a class="nav-link" href="#"><i class="fas fa-user"></i></a>
-        <a class="nav-link" href="#"><i class="fas fa-search"></i></a>
-        <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i></a>
+        <!-- Si el usuario está logueado -->
+        @if (usuario) {
+          <div class="d-flex align-items-center">
+            <span class="text-white mr-3">Hola, {{ usuario.nombre }}</span>
+            <button class="btn btn-outline-danger" (click)="logout()">Cerrar sesión</button>
+          </div>
+        } @else {
+          <button class="btn btn-outline-success" (click)="mostrarLogin = true">Login</button>
+        }
+        <!-- Si no está logueado -->
       </div>
     </div>
   </nav>
 </header>
+
+<!-- Modal de Login -->
+@if (mostrarLogin) {
+  <div class="modal-backdrop">
+    <div class="modal-content">
+      <h5 class="modal-title">Iniciar sesión</h5>
+      <input type="text" [(ngModel)]="usuarioInput" placeholder="Usuario" class="form-control mb-2">
+      <input type="password" [(ngModel)]="contra" placeholder="Contraseña" class="form-control mb-2">
+      <button class="btn btn-primary" (click)="login()">Iniciar sesión</button>
+      <button class="btn btn-secondary" (click)="mostrarLogin = false">Cancelar</button>
+    </div>
+  </div>
+}
+
 
 <router-outlet></router-outlet>
 <footer class="footer bg-dark text-white mt-4">
