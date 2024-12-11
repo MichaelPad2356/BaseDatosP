@@ -1,0 +1,32 @@
+.carrito-container {
+    position: relative;
+  }
+  
+  .carrito-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 300px;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    padding: 10px;
+  }
+  
+  .producto-carrito {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .imagen-producto {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  .detalles-producto {
+    display: flex;
+    flex-direction: column;
+  }

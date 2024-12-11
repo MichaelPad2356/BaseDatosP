@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { InventarioComponent } from './inventario/inventario.component';
+import { ProductosComponent } from './productos/productos.component';
+import { HeaderComponent } from "./header/header.component";
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
@@ -8,11 +10,18 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-root',
   standalone: true,
+  imports: [RouterOutlet, InventarioComponent, RouterModule, ProductosComponent, HeaderComponent],
+
   imports: [RouterOutlet,InventarioComponent,RouterModule, FormsModule],
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  title = 'VINOS DEL VALLE';
+  
+}
+
   usuarioInput: string = '';  // Nombre de usuario (correo o nombre de usuario)
   contra: string = '';  // Contraseña
   usuario: any = null;  // Información del usuario logueado

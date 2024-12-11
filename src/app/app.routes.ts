@@ -9,6 +9,7 @@ import { BajaEmpleadoComponent } from './baja-empleado/baja-empleado.component';
 import { AltaOrdenProduccionComponent } from './alta-orden-produccion/alta-orden-produccion.component';
 import { BajaOrdenProduccionComponent } from './baja-orden-produccion/baja-orden-produccion.component';
 import { HomeComponent } from './home/home.component';
+import { ProductosComponent } from './productos/productos.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
 import { NosotrosComponent } from './nosotros/nosotros.component';
 
@@ -25,6 +26,7 @@ export const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'edit-product', component: EditProductComponent },
     { path: '', component: InventarioComponent },
+    {path: 'productos', component: ProductosComponent}
     { path: 'nosotros', component: NosotrosComponent},
 
 ];
