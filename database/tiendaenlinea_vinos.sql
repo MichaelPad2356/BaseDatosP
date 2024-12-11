@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:33065
--- Tiempo de generación: 11-12-2024 a las 03:37:04
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 11-12-2024 a las 04:39:05
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -230,10 +230,21 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Descripcion`, `Precio`, `Stock`, `ID_Categoria`, `URL_Imagen`) VALUES
-(1, 'Cabernet Sauvignon', 'Vino tinto con notas a frutos rojos y madera.', 450.00, 50, 1, NULL),
-(2, 'Chardonnay', 'Vino blanco fresco con aromas cítricos.', 350.00, 40, 2, NULL),
-(3, 'Rosé', 'Vino rosado con sabores frutales y florales.', 300.00, 30, 3, NULL),
-(4, 'Prosecco', 'Vino espumoso italiano, ideal para celebraciones.', 500.00, 20, 4, NULL);
+(1, 'Vino Tinto Syrah Reserva', 'Sabores a frutas negras y especias.', 490.00, 45, 1, 'v1.jpg'),
+(2, 'Vino Blanco Pinot Grigio', 'Fresco y ligero, con notas cítricas y un final seco.', 600.00, 21, 2, 'v2.jpg'),
+(3, 'Vino Rosado Garnacha', 'Vibrante, con aromas de frutos rojos y un sutil toque floral.', 390.00, 30, 3, 'v3.jpg'),
+(4, 'Vino Espumoso Cava Brut Nature', 'Elegante, con burbujas finas y un delicado toque tostado.', 800.00, 25, 4, 'v4.jpg'),
+(5, 'Vino Tinto Cabernet Sauvignon', 'Vino tinto con notas a frutos rojos y madera.', 450.00, 50, 1, 'vino_tinto_inv.webp'),
+(6, 'Vino Blanco Chardonnay', 'Vino blanco fresco con aromas cítricos.', 350.00, 40, 2, 'vino_blanco_inv.jpg'),
+(7, 'Vino Rosado Zinfandel', 'Vino rosado con sabores frutales y florales.', 300.00, 30, 3, 'vino_rosado_inv.webp'),
+(8, 'Vino Espumoso Brut', 'Vino espumoso italiano, ideal para celebraciones.', 500.00, 20, 4, 'vino_espumoso_inv.webp'),
+(9, 'Vino Tinto Merlot', 'Vino tinto suave con notas de ciruela y especias.', 520.00, 30, 1, 'vino_tinto_merlot.webp'),
+(10, 'Vino Blanco Sauvignon Blanc', 'Vino blanco fresco con sabores cítricos y herbales.', 470.00, 18, 2, 'vino_blanco_sauvignon.jpg'),
+(11, 'Vino Rosado Provence', 'Vino rosado de la región de Provenza, ligero y afrutado.', 430.00, 12, 3, 'vino_rosado_provence.jpg'),
+(12, 'Vino Espumoso Prosecco', 'Vino espumoso italiano con burbujas vivas y un toque dulce.', 550.00, 40, 4, 'vino_espumoso_prosecco.jpg'),
+(13, 'Vino Tinto Malbec', 'Vino tinto argentino con sabores intensos de frutos oscuros.', 530.00, 35, 1, 'vino_tinto_malbec.jpg'),
+(14, 'Vino Blanco Riesling', 'Vino blanco aromático con notas de manzana y miel.', 480.00, 28, 2, 'vino_blanco_riesling.jpg'),
+(15, 'Vino Rosado Tempranillo', 'Vino rosado español con notas florales y frutales.', 460.00, 22, 3, 'vino_rosado_tempranillo.jpg');
 
 -- --------------------------------------------------------
 
@@ -391,7 +402,7 @@ ALTER TABLE `pedido`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `ID_Producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID_Producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
