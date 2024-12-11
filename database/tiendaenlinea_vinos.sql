@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:33065
--- Tiempo de generación: 11-12-2024 a las 02:57:30
+-- Tiempo de generación: 11-12-2024 a las 03:37:04
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -258,7 +258,8 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`ID_Usuario`, `Nombre`, `Apellido`, `Correo`, `Contraseña`, `Tipo`, `ID_Municipio`) VALUES
 (1, 'Juan', 'Pérez', 'juan.perez@example.com', 'password123', 'Cliente', 1),
 (2, 'Michael ', 'Padilla', 'michael.padilla@example.com', 'mypassword789', 'Administrador', 3),
-(3, 'Ana', 'Gómez', 'ana.gomez@example.com', 'securePass456', 'Cliente', 2);
+(3, 'Ana', 'Gómez', 'ana.gomez@example.com', 'securePass456', 'Cliente', 2),
+(4, 'Paulina', 'López ', 'pau@gmail.com', '1234pau', 'Administrador', 2);
 
 --
 -- Índices para tablas volcadas
@@ -396,7 +397,7 @@ ALTER TABLE `producto`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `ID_Usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID_Usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
