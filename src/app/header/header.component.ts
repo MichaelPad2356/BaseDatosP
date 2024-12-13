@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CarritoService } from '../carrito.service';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [RouterLink, FormsModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.css']  // Corregido el nombre de la propiedad `styleUrl` a `styleUrls`
 })
 export class HeaderComponent implements OnInit {
   usuarioInput: string = '';  // Campo del formulario (correo)
@@ -17,20 +17,34 @@ export class HeaderComponent implements OnInit {
   usuario: any = null;  // Información del usuario logueado
   mostrarLogin: boolean = false;  // Modal de login
 
-  constructor(private carritoService: CarritoService, private http: HttpClient) {}
+  carritoCantidad: number = 0;  // Número de productos en el carrito
+  usuarioId: number = 1;  // Asegúrate de obtener el usuarioId de la sesión
+  carritoVisible: boolean = false;
+  carrito: any[] = [];  // Productos en el carrito
+  totalCarrito: number = 0;  // Total del carrito
+
+  constructor(private cartService: CartService, private http: HttpClient) {}
 
   ngOnInit() {
     if (typeof window !== 'undefined' && window.localStorage) {
       const usuarioGuardado = localStorage.getItem('usuario');
       if (usuarioGuardado) {
         this.usuario = JSON.parse(usuarioGuardado);
+        this.usuarioId = this.usuario.id;  // Recuperar el usuarioId
+        this.cartService.iniciarCarrito();  // Iniciar el carrito para este usuario
+
+        // Subscribir a cambios en el carrito
+        this.cartService.carrito$.subscribe((productos) => {
+          this.carrito = productos;
+          this.totalCarrito = this.cartService.obtenerTotalCarrito();  // Actualizar total
+          this.carritoCantidad = this.cartService.obtenerCantidadProductos();  // Actualizar cantidad
+        });
       }
     }
   }
-  
-  // Obtener el total de productos en el carrito
-  obtenerTotalProductos() {
-    return this.carritoService.obtenerTotalProductos();
+
+  toggleCarrito(): void {
+    this.carritoVisible = !this.carritoVisible;
   }
 
   // Método para login
@@ -46,9 +60,11 @@ export class HeaderComponent implements OnInit {
       next: (response: any) => {
         if (response.success) {
           this.usuario = response.usuario;  // Almacena la información del usuario
+          this.usuarioId = this.usuario.id; // Establece el usuarioId
           localStorage.setItem('usuario', JSON.stringify(this.usuario));  // Persistir sesión
           this.mostrarLogin = false;  // Cerrar modal
           alert("¡Login exitoso!");
+          this.cartService.iniciarCarrito();  // Iniciar el carrito al hacer login
         } else {
           alert("Usuario o contraseña incorrectos.");
         }
@@ -64,11 +80,11 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.usuario = null;
     localStorage.removeItem('usuario');  // Eliminar sesión
+    this.cartService.vaciarCarrito();  // Vaciar el carrito al cerrar sesión
   }
 
   // Verificar si el usuario es "Admin"
   esAdministrador(): boolean {
     return this.usuario && this.usuario.nombre === 'Admin';
   }
-
 }
