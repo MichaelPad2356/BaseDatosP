@@ -227,7 +227,55 @@ app.get('/api/carrito/:carritoId', (req, res) => {
 });
 
 
+// Vista de stock por categoría
+app.get('/api/reportes/stock-categoria', (req, res) => {
+  const query = 'SELECT * FROM Vista_Stock_Categoria';  // Consulta SQL
+  db.query(query, (err, results) => {
+    if (err) {
+      return res.status(500).json({ success: false, message: 'Error al obtener datos.' });
+    }
+    res.status(200).json({ success: true, stock: results });
+  });
+});
+
+// Ruta para obtener los pedidos completos desde la vista
+app.get('/api/pedidos', (req, res) => {
+  const query = 'SELECT * FROM vista_pedidos_completa'; // Consulta la vista directamente
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al consultar la vista:', err);
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Error al obtener los pedidos completos.' 
+      });
+    }
+
+    res.status(200).json({ 
+      success: true, 
+      pedidos: results // Devuelve los pedidos obtenidos de la vista
+    });
+  });
+});
+
+// Endpoint para obtener productos más vendidos
+app.get('/api/productos-mas-vendidos', (req, res) => {
+  const query = 'SELECT * FROM productos_mas_vendidos';  // Usando la vista con los productos más vendidos
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener productos más vendidos', err);
+      return res.status(500).send('Error al obtener productos más vendidos');
+    }
+    res.json(results);  // Devuelve los productos más vendidos como un JSON
+  });
+});
+
+
+
+
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
+
+

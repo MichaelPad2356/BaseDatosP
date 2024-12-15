@@ -78,5 +78,49 @@
       font-size: 2em; /* Ajuste de tamaño para pantallas pequeñas */
     }
   }
+
+  .table-responsive {
+    margin-top: 30px;
+  }
+  
+  .table th, .table td {
+    text-align: center;
+  }
+  
+  .table td {
+    vertical-align: middle;
+  }
+  
+  h3 {
+    margin-top: 50px;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+  }
+  
+  .modal.show {
+    display: flex;
+  }
+  
+  .modal-dialog {
+    max-width: 90%;
+    margin: auto;
+  }
+  
+  .modal-content {
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
   
   
