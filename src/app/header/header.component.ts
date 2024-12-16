@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+
+import { Router, RouterLink } from '@angular/router';
+import { CarritoService } from '../carrito.service';
+
 import { RouterLink } from '@angular/router';
+
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../cart.service';
@@ -17,6 +22,9 @@ export class HeaderComponent implements OnInit {
   usuario: any = null;  // Información del usuario logueado
   mostrarLogin: boolean = false;  // Modal de login
 
+
+  constructor(private carritoService: CarritoService, private http: HttpClient, private router: Router) {}
+
   carritoCantidad: number = 0;  // Número de productos en el carrito
   usuarioId: number = 1;  // Asegúrate de obtener el usuarioId de la sesión
   carritoVisible: boolean = false;
@@ -24,6 +32,7 @@ export class HeaderComponent implements OnInit {
   totalCarrito: number = 0;  // Total del carrito
 
   constructor(private cartService: CartService, private http: HttpClient) {}
+
 
   ngOnInit() {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -77,6 +86,7 @@ export class HeaderComponent implements OnInit {
   }
 
   // Método para logout
+
   logout() {
     this.usuario = null;
     localStorage.removeItem('usuario');  // Eliminar sesión
