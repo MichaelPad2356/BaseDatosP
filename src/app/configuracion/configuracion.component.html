@@ -634,16 +634,14 @@
                   <thead>
                     <tr>
                       <th>ID Categoría</th>
-                      <th>Nombre de Categoría</th>
                       <th>Cantidad de Productos</th>
                     </tr>
                   </thead>
                   <tbody>
                     @for (resultado of cantidadPorCategoria; track resultado) {
-                      <tr>
-                        <td>{{ resultado.categoriaId }}</td>
-                        <td>{{ resultado.nombre }}</td>
-                        <td>{{ resultado.cantidad }}</td>
+                      <tr style="text-align: center;">
+                        <td style="text-align: center;" >{{ resultado.categoriaId }}</td>
+                        <td style="text-align: center;" >{{ resultado.cantidad }}</td>
                       </tr>
                     }
                   </tbody>
