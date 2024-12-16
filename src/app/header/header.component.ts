@@ -91,6 +91,8 @@ export class HeaderComponent implements OnInit {
     this.usuario = null;
     localStorage.removeItem('usuario');  // Eliminar sesión
     this.cartService.vaciarCarrito();  // Vaciar el carrito al cerrar sesión
+    this.router.navigate(['/home']);  // Redirigir a la página de inicio
+
   }
 
   // Verificar si el usuario es "Admin"
