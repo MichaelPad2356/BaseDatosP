@@ -74,6 +74,7 @@ export class HeaderComponent implements OnInit {
           this.mostrarLogin = false;  // Cerrar modal
           alert("¡Login exitoso!");
           this.cartService.iniciarCarrito();  // Iniciar el carrito al hacer login
+          location.reload(); // Recarga la página
         } else {
           alert("Usuario o contraseña incorrectos.");
         }
