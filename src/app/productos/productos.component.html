@@ -52,7 +52,8 @@
             <div class="wine-card-inner">
               <!-- Imagen -->
               <div class="wine-image-wrapper">
-                <img [src]="'../../assets/images/' + producto.URL_Imagen" alt="{{producto.Nombre}}" class="wine-image" [alt]="producto.Nombre">
+                <!--<img [src]="'../../assets/images/' + producto.URL_Imagen" alt="{{producto.Nombre}}" class="wine-image" [alt]="producto.Nombre"> -->
+                <img [src]="'http://localhost:3000/uploads/' + producto.URL_Imagen" alt="{{producto.Nombre}}" class="wine-image">
                 <div class="wine-type-badge">Categoría {{ producto.ID_Categoria }}</div>
               </div>
               <!-- Detalles -->

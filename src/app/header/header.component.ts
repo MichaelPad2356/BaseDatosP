@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CarritoService } from '../carrito.service';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   usuario: any = null;  // Información del usuario logueado
   mostrarLogin: boolean = false;  // Modal de login
 
-  constructor(private carritoService: CarritoService, private http: HttpClient) {}
+  constructor(private carritoService: CarritoService, private http: HttpClient, private router: Router) {}
 
   ngOnInit() {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -61,10 +61,12 @@ export class HeaderComponent implements OnInit {
   }
 
   // Método para logout
-  logout() {
-    this.usuario = null;
-    localStorage.removeItem('usuario');  // Eliminar sesión
-  }
+ // Método para logout
+logout() {
+  this.usuario = null;
+  localStorage.removeItem('usuario');  // Eliminar sesión
+  this.router.navigate(['/home']);  // Redirigir a la página de inicio
+}
 
   // Verificar si el usuario es "Admin"
   esAdministrador(): boolean {
