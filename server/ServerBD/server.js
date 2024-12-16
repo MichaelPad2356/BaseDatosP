@@ -87,7 +87,6 @@ app.post('/api/login', (req, res) => {
   });
   
 
-
   // Endpoint para obtener los productos
 app.get('/api/productos', (req, res) => {
   const query = 'SELECT * FROM producto';
@@ -102,6 +101,80 @@ app.get('/api/productos', (req, res) => {
       success: true,
       productos: results  // Devuelve todos los productos
     });
+  });
+});
+
+// Endpoint para actualizar el stock del producto
+app.put('/api/productos/:productoId', (req, res) => {
+  const { productoId } = req.params;  // Obtenemos el ID del producto de la URL
+  const { stock } = req.body;         // Obtenemos el nuevo stock desde el cuerpo de la solicitud
+
+  if (!productoId || stock == undefined) {
+    return res.status(400).json({ success: false, message: 'Producto ID o stock no válidos.' });
+  }
+
+  // Actualizar el stock del producto en la base de datos
+  const query = 'UPDATE producto SET Stock = ? WHERE ID_Producto = ?';
+  db.query(query, [stock, productoId], (err, result) => {
+    if (err) {
+      console.error('Error al actualizar el stock:', err);
+      return res.status(500).json({ success: false, message: 'Error al actualizar el stock.' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'Producto no encontrado.' });
+    }
+
+    res.status(200).json({ success: true, message: 'Stock actualizado correctamente.' });
+  });
+});
+
+// Endpoint para agregar un producto al carrito
+app.post('/api/carrito', (req, res) => {
+  const { usuarioId, productoId, cantidad } = req.body;
+
+  if (!usuarioId || !productoId || !cantidad) {
+    return res.status(400).json({ success: false, message: 'Faltan datos para agregar al carrito.' });
+  }
+
+  // Primero verificamos si el usuario ya tiene un carrito activo
+  // Primero verificamos si el usuario ya tiene un carrito activo
+  db.query('SELECT * FROM carrito WHERE ID_Usuario = ?', [usuarioId], (err, results) => {
+    if (err) {
+      console.error('Error en la consulta:', err);
+      return res.status(500).json({ success: false, message: 'Error en el servidor.' });
+    }
+
+    let carritoId;
+
+    if (results.length > 0) {
+      // Si el carrito existe, usamos su ID
+      carritoId = results[0].ID_Carrito;
+      // Agregamos el producto al detalle del carrito
+      agregarProductoAlCarrito(carritoId);
+    } else {
+      // Si no existe, creamos uno nuevo
+      db.query('INSERT INTO carrito (ID_Usuario, Fecha_Creacion) VALUES (?, NOW())', [usuarioId], (err, result) => {
+        if (err) {
+          console.error('Error al crear carrito:', err);
+          return res.status(500).json({ success: false, message: 'Error al crear carrito.' });
+        }
+        carritoId = result.insertId;
+        // Ahora que se creó el carrito, agregamos el producto
+        agregarProductoAlCarrito(carritoId);
+      });
+    }
+
+    // Función para agregar el producto al carrito
+    function agregarProductoAlCarrito(carritoId) {
+      db.query('INSERT INTO detalle_carrito (ID_Carrito, ID_Producto, Cantidad) VALUES (?, ?, ?)', [carritoId, productoId, cantidad], (err, result) => {
+        if (err) {
+          console.error('Error al agregar producto al carrito:', err);
+          return res.status(500).json({ success: false, message: 'Error al agregar producto al carrito.' });
+        }
+        res.status(200).json({ success: true, message: 'Producto agregado al carrito correctamente.' });
+      });
+    }
   });
 });
 
@@ -466,10 +539,76 @@ app.post('/api/agregarMunicipio', (req, res) => {
     if (err) {
       console.error('Error al agregar el municipio:', err);
       return res.status(500).json({ success: false, message: 'Error al agregar el municipio.' });
+=======
+// Endpoint para agregar productos al carrito
+app.post('/api/carrito/agregar', (req, res) => {
+  const { carritoId, productoId, cantidad } = req.body;
+
+  if (!carritoId || !productoId || !cantidad) {
+    return res.status(400).json({ success: false, message: 'Faltan datos (carritoId, productoId, cantidad).' });
+  }
+
+  // Verificar si el producto ya está en el carrito
+  const queryCheck = 'SELECT * FROM detalle_carrito WHERE ID_Carrito = ? AND ID_Producto = ?';
+  db.query(queryCheck, [carritoId, productoId], (err, results) => {
+    if (err) {
+      console.error('Error en la consulta:', err);
+      return res.status(500).json({ success: false, message: 'Error al verificar el producto.' });
+    }
+
+    if (results.length > 0) {
+      // Si el producto ya existe, actualizamos la cantidad
+      const queryUpdate = 'UPDATE detalle_carrito SET Cantidad = ? WHERE ID_Carrito = ? AND ID_Producto = ?';
+      db.query(queryUpdate, [cantidad, carritoId, productoId], (err, updateResults) => {
+        if (err) {
+          console.error('Error al actualizar el producto:', err);
+          return res.status(500).json({ success: false, message: 'Error al actualizar el producto en el carrito.' });
+        }
+
+        res.status(200).json({
+          success: true,
+          message: 'Producto actualizado en el carrito.',
+        });
+      });
+    } else {
+      // Si el producto no existe, lo insertamos
+      const queryInsert = 'INSERT INTO detalle_carrito (ID_Carrito, ID_Producto, Cantidad) VALUES (?, ?, ?)';
+      db.query(queryInsert, [carritoId, productoId, cantidad], (err, insertResults) => {
+        if (err) {
+          console.error('Error al agregar el producto:', err);
+          return res.status(500).json({ success: false, message: 'Error al agregar el producto al carrito.' });
+        }
+
+        res.status(200).json({
+          success: true,
+          message: 'Producto agregado al carrito.',
+        });
+      });
+    }
+  });
+});
+
+// Endpoint para obtener el contenido del carrito
+app.get('/api/carrito/:carritoId', (req, res) => {
+  const { carritoId } = req.params;
+
+  const query = `
+    SELECT p.ID_Producto, p.Nombre, p.Descripcion, p.Precio, dc.Cantidad
+    FROM detalle_carrito dc
+    JOIN producto p ON dc.ID_Producto = p.ID_Producto
+    WHERE dc.ID_Carrito = ?
+  `;
+
+  db.query(query, [carritoId], (err, results) => {
+    if (err) {
+      console.error('Error en la consulta:', err);
+      return res.status(500).json({ success: false, message: 'Error al obtener el contenido del carrito.' });
+
     }
 
     res.status(200).json({
       success: true,
+
       message: 'Municipio agregado correctamente.',
     });
   });
@@ -494,6 +633,12 @@ app.get('/api/obtenerMunicipios', (req, res) => {
 // Endpoint para editar un municipio
 app.put('/api/editarMunicipio', (req, res) => {
   const { ID_Municipio, Nombre_Municipio, ID_EstadoDirc } = req.body;
+
+      productos: results,
+    });
+  });
+});
+
 
   const query = 'UPDATE municipio SET Nombre_Municipio = ?, ID_EstadoDirc = ? WHERE ID_Municipio = ?';
 
