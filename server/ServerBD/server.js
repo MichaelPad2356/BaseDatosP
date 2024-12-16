@@ -798,6 +798,18 @@ app.get('/api/ventas-por-categoria', (req, res) => {
     }
 
 
+
+
+
+
+    console.log('Resultados obtenidos:', results);
+    res.json(results[0]); 
+  });
+});
+
+
+
+
     //************************************************************************************************************************* */
     app.get('/api/contar/:idCategoria', (req, res) => {
       const { idCategoria } = req.params;
@@ -811,7 +823,7 @@ app.get('/api/ventas-por-categoria', (req, res) => {
       const query = `SELECT contar_productos_categoria(?) AS cantidad`;
   
       // Execute query
-      connection.query(query, [idCategoria], (err, results) => {
+      db.query(query, [idCategoria], (err, results) => {
           if (err) {
               console.error('Error al ejecutar la consulta', err);
               return res.status(500).json({ error: 'Hubo un error al ejecutar la consulta.' });
@@ -821,12 +833,3 @@ app.get('/api/ventas-por-categoria', (req, res) => {
           res.json({ cantidad: results[0].cantidad });
       });
   });
-
-
-
-
-
-    console.log('Resultados obtenidos:', results);
-    res.json(results[0]); 
-  });
-});
