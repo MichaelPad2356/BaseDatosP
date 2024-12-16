@@ -61,30 +61,69 @@
   <p>No se pudo obtener el reporte de stock por categoría.</p>
 }
 
-<h2>Productos Más Vendidos (1-15 de diciembre)</h2>
-<table id="productos-table">
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Descripción</th>
-      <th>Precio</th>
-      <th>Cantidad Vendida</th>
-      <th>Categoría</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (producto of productosMasVendidos; track producto) {
-      <tr>
-        <td>{{ producto.Nombre }}</td>
-        <td>{{ producto.Descripcion }}</td>
-        <td>{{ producto.Precio | currency }}</td>
-        <td>{{ producto.Cantidad_Vendida }}</td>
-        <td>{{ producto.Categoria }}</td>
-      </tr>
-    }
-  </tbody>
-</table>
 
+<h2 class="mt-5 mb-4 text-center text-danger">Productos Más Vendidos (1-15 de diciembre)</h2>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered text-center align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Imagen</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Cantidad Vendida</th>
+        <th scope="col">Categoría</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (producto of productosMasVendidos; track producto) {
+        <tr>
+          <!-- Imagen del producto -->
+          <td class="img">
+            <img [src]="'../../assets/images/' + producto.URL_Imagen" alt="{{producto.Nombre}}" class="img">
+          </td>
+
+          <!-- Nombre del producto -->
+          <td class="fw-bold">{{ producto.Nombre }}</td>
+
+          <!-- Descripción del producto -->
+          <td class="text-start">{{ producto.Descripcion }}</td>
+
+          <!-- Precio del producto -->
+          <td class="text-success fw-bold">${{ producto.Precio | number: '1.2-2' }}</td>
+
+          <!-- Cantidad Vendida (corrección aquí) -->
+          <td>{{ producto.Total_Vendido }}</td>
+
+          <!-- Categoría del producto -->
+          <td>{{ producto.Nombre_Categoria }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<h3 class="mt-5 mb-4 text-center text-primary">Categorías con Ventas Mayores a $5000</h3>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered text-center">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">ID Categoría</th>
+        <th scope="col">Total Ventas</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (categoria of categoriasMasVendidas; track categoria) {
+        <tr>
+          <td>{{ categoria.ID_Categoria }}</td>
+          <td class="text-success fw-bold">${{ categoria.Total_Ventas | number: '1.2-2' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
 
 <!-- Botón para abrir la ventana modal de Pedidos -->
 <div class="text-center mb-4">

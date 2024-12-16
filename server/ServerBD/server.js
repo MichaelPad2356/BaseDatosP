@@ -261,17 +261,44 @@ app.get('/api/pedidos', (req, res) => {
 // Endpoint para obtener productos más vendidos
 app.get('/api/productos-mas-vendidos', (req, res) => {
   const query = 'SELECT * FROM productos_mas_vendidos';  // Usando la vista con los productos más vendidos
+
   db.query(query, (err, results) => {
     if (err) {
-      console.error('Error al obtener productos más vendidos', err);
-      return res.status(500).send('Error al obtener productos más vendidos');
+      console.error('Error al obtener productos más vendidos:', err);
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Error al obtener productos más vendidos.' 
+      });
     }
-    res.json(results);  // Devuelve los productos más vendidos como un JSON
+    
+    // Devolver resultados con un formato compatible
+    res.status(200).json({ 
+      success: true,
+      productos: results
+    });
   });
 });
 
+// Endpoint para obtener categorías con ventas mayores a 5000
+app.get('/api/categorias-mas-vendidas', (req, res) => {
+  const query = `
+    SELECT p.ID_Categoria, SUM(dp.Cantidad * dp.Precio_Unitario) AS Total_Ventas
+    FROM detalle_pedido dp
+    JOIN producto p ON dp.ID_Producto = p.ID_Producto
+    GROUP BY p.ID_Categoria
+    HAVING SUM(dp.Cantidad * dp.Precio_Unitario) > 5000
+  `;
 
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener las categorías más vendidas:', err);
+      return res.status(500).json({ success: false, message: 'Error al obtener las categorías más vendidas.' });
+    }
 
+    // Enviar respuesta con los resultados
+    res.status(200).json({ success: true, categorias: results });
+  });
+});
 
 // Iniciar el servidor
 app.listen(port, () => {

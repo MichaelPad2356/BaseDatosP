@@ -17,6 +17,7 @@ export class InventarioComponent implements OnInit {
   productosMasVendidos: any[] = [];  // Array para almacenar los productos más vendidos
   pedidos: any[] = []; // Array para almacenar los datos de los pedidos
   mostrarModal: boolean = false; // Estado para controlar si el modal está visible o no
+  categoriasMasVendidas: any[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -24,6 +25,7 @@ export class InventarioComponent implements OnInit {
     this.obtenerProductos();  // Llamamos a obtener los productos al iniciar el componente
     this.obtenerStockPorCategoria();  // Llamamos a obtener el reporte de stock por categoría
     this.obtenerProductosMasVendidos();  // Llamamos al método para obtener los productos más vendidos
+    this.obtenerCategoriasMasVendidas();
   }
 
   // Método para obtener los productos desde la API
@@ -109,5 +111,24 @@ export class InventarioComponent implements OnInit {
         }
       });
     }
+
+    // Método para obtener categorías con ventas mayores a 5000
+obtenerCategoriasMasVendidas(): void {
+  const apiUrl = 'http://localhost:3000/api/categorias-mas-vendidas';
+
+  this.http.get<any>(apiUrl).subscribe({
+    next: (response) => {
+      if (response.success) {
+        console.log('Categorías con ventas mayores a 5000:', response.categorias);
+        this.categoriasMasVendidas = response.categorias;  // Almacena los resultados
+      } else {
+        console.error('No se pudieron obtener las categorías más vendidas');
+      }
+    },
+    error: (err) => {
+      console.error('Error al obtener las categorías más vendidas:', err);
+    }
+  });
+}
 
 }
