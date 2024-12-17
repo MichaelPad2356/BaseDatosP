@@ -5,11 +5,12 @@ import { Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-configuracion',
   standalone: true,
-  imports: [RouterModule, FormsModule, HttpClientModule],
+  imports: [RouterModule, FormsModule, HttpClientModule,CommonModule],
   templateUrl: './configuracion.component.html',
   styleUrl: './configuracion.component.css'
 })
@@ -804,6 +805,22 @@ deleteMunicipality(id: number): void {
           console.error('Error body:', error.error);
         }
       });
+  }
+
+  consultarUnionProductos() {
+    this.http
+      .get<any[]>('http://localhost:3000/api/union-productos', {
+        params: { fechaInicio: this.fechaInicio, fechaFin: this.fechaFin },
+      })
+      .subscribe(
+        (data) => {
+          this.resultados = data;
+          console.log('Datos recibidos:', data);
+        },
+        (error) => {
+          console.error('Error al consultar productos combinados:', error);
+        }
+      );
   }
 
   //********************************************************************************************************************************************** */
