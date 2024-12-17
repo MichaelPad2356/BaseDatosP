@@ -4,13 +4,26 @@ import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
+
+interface VentaRollup {
+  Nombre_Categoria: string;
+  Fecha_Pedido: string;
+  Total_Ventas: number;
+}
+
+interface UsuarioTop {
+  ID_Usuario: string;
+  Nombre_Usuario: string;
+  Total_Compras: number;
+  Total_Ventas: number;
+}
 
 @Component({
   selector: 'app-configuracion',
   standalone: true,
-  imports: [RouterModule, FormsModule, HttpClientModule,CommonModule],
+  imports: [RouterModule, FormsModule, HttpClientModule, CommonModule],
   templateUrl: './configuracion.component.html',
   styleUrl: './configuracion.component.css'
 })
@@ -77,6 +90,14 @@ export class ConfiguracionComponent {
   resultados: any[] = [];
 
   //******************************************************************************************* */
+
+  mostrarModal: boolean = false; // Estado para controlar si el modal está visible o no
+  pedidos: any[] = []; // Array para almacenar los datos de los pedidos
+
+  
+  usuariosTop: UsuarioTop[] = [];
+  totalGeneral: UsuarioTop | null = null;
+  ventasRollup: VentaRollup[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -807,22 +828,6 @@ deleteMunicipality(id: number): void {
       });
   }
 
-  consultarUnionProductos() {
-    this.http
-      .get<any[]>('http://localhost:3000/api/union-productos', {
-        params: { fechaInicio: this.fechaInicio, fechaFin: this.fechaFin },
-      })
-      .subscribe(
-        (data) => {
-          this.resultados = data;
-          console.log('Datos recibidos:', data);
-        },
-        (error) => {
-          console.error('Error al consultar productos combinados:', error);
-        }
-      );
-  }
-
   //********************************************************************************************************************************************** */
   obtenerCantidadProductos(): void {
     // Validate category selection
@@ -866,6 +871,75 @@ deleteMunicipality(id: number): void {
 }
 
 
+//************************************************************************************************************ */
+// Método para abrir el modal
+      abrirModal(): void {
+        this.mostrarModal = true;
+        this.obtenerPedidos(); // Cargar los pedidos cuando se abre el modal
+      }
+
+      // Método para cerrar el modal
+      cerrarModal(): void {
+        this.mostrarModal = false;
+      }
+
+        // Método para obtener los pedidos desde el servidor
+        obtenerPedidos(): void {
+          const apiUrl = 'http://localhost:3000/api/pedidos'; // Cambia la URL si es necesario
+        
+          this.http.get<any>(apiUrl).subscribe({
+            next: (response) => {
+              if (response.success) {
+                this.pedidos = response.pedidos; // Asegúrate de usar el nombre correcto del campo
+                console.log(this.pedidos); // Verifica en la consola que los datos se carguen correctamente
+              } else {
+                console.error('No se pudieron obtener los pedidos:', response.message);
+              }
+            },
+            error: (err) => {
+              console.error('Error al obtener pedidos:', err);
+            }
+            });
+          }
+
+
+      obtenerVentasRollup() {
+        const url = 'http://localhost:3000/api/ventas/rollup';
+    
+        this.http.get<{success: boolean, ventasRollup: VentaRollup[]}>(url).subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.ventasRollup = response.ventasRollup;
+              console.log('Datos de ventas con ROLLUP:', this.ventasRollup);
+            }
+          },
+          error: (err) => {
+            console.error('Error al obtener ventas', err);
+          }
+        });
+      }
+
+
+      obtenerUsuariosTop() {
+        const url = 'http://localhost:3000/api/usuarios/top-compras-cube';
+    
+        this.http.get<{
+          success: boolean, 
+          usuariosTop: UsuarioTop[], 
+          totalGeneral: UsuarioTop
+        }>(url).subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.usuariosTop = response.usuariosTop;
+              this.totalGeneral = response.totalGeneral;
+            }
+          },
+          error: (err) => {
+            console.error('Error al obtener usuarios top', err);
+          }
+        });
+      }
+
 
   ngOnInit(): void {
     this.obtenerUsuarios(); // Al iniciar el componente, obtiene los usuarios
@@ -875,5 +949,7 @@ deleteMunicipality(id: number): void {
     this.obtenerMunicipios(); //Se cargan los municipios al iniciar
     this.getPedidosDetalles();
     this.getPagosDetalles();
+    this.obtenerVentasRollup();
+    this.obtenerUsuariosTop();
   }
 }

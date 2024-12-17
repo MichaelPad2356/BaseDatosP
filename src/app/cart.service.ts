@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';  // Importa HttpClient para h
 export class CartService {
   private carrito = new BehaviorSubject<any[]>([]); // Almacena el carrito en el BehaviorSubject
   carrito$ = this.carrito.asObservable();
-  private apiUrl = 'http://tuservidor.com/api/carrito';  // URL del servidor
+  private apiUrl = 'http://localhost:3000/api/carrito';  // URL del servidor
 
   constructor(private http: HttpClient) {}
 

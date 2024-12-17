@@ -148,13 +148,15 @@
     margin: 7% auto;
     padding: 20px;
     border: 2px solid #d9534f;
-    width: 70%;
-    max-width: 450px;
+    width: 80%; /* Aumenté el ancho */
+    max-width: 800px; /* Cambié el max-width a un valor mayor */
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1);
-    max-height: 100%; /* Limit height */
-    overflow: hidden; /* Remove scrollbar completely */
+    max-height: 100%;
+    overflow-x: auto; /* Permite scroll horizontal */
+    overflow-y: hidden; /* Evita el scroll vertical */
 }
+
 
 /* Rest of the CSS remains the same */
 
@@ -381,7 +383,7 @@
     border: 2px solid #d9534f;
     border-radius: 12px;
     width: 100%;
-    max-width: 500px;
+    max-width: 1500px;
     max-height: 50vh;
     overflow-y: auto;
     padding: 25px;

@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 
 
 @Component({
   selector: 'app-inventario',
   standalone: true,
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, FormsModule, CommonModule],
   templateUrl: './inventario.component.html',
   styleUrls: ['./inventario.component.css']
 })
@@ -16,6 +17,13 @@ export class InventarioComponent implements OnInit {
 
   productos: any[] = [];
   categorias: any[] = [];
+  //productos: any[] = [];  // Array para almacenar los productos obtenidos desde la API
+  stockCategoria: any[] = [];  // Array para almacenar los datos de stock por categoría
+  productosMasVendidos: any[] = [];  // Array para almacenar los productos más vendidos
+  pedidos: any[] = []; // Array para almacenar los datos de los pedidos
+  mostrarModal: boolean = false; // Estado para controlar si el modal está visible o no
+  categoriasMasVendidas: any[] = [];
+
   nuevoProducto: any = {
     Nombre: '',
     Descripcion: '',
@@ -34,6 +42,11 @@ export class InventarioComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerProductos();
     this.obtenerCategorias();
+    //this.obtenerProductos();  // Llamamos a obtener los productos al iniciar el componente
+    this.obtenerStockPorCategoria();  // Llamamos a obtener el reporte de stock por categoría
+    this.obtenerProductosMasVendidos();  // Llamamos al método para obtener los productos más vendidos
+    this.obtenerCategoriasMasVendidas();
+
   }
 
   obtenerProductos(): void {
@@ -282,6 +295,71 @@ eliminarProducto(productoId: number): void {
       });
     }
   });
+}
+
+
+
+// Método para obtener el reporte de stock por categoría desde la API
+obtenerStockPorCategoria(): void {
+  const apiUrl = 'http://localhost:3000/api/reportes/stock-categoria';  // URL del endpoint de la vista
+
+  this.http.get<any>(apiUrl).subscribe({
+    next: (response) => {
+      if (response.success) {
+        this.stockCategoria = response.stock;  // Almacena los datos de stock por categoría
+      } else {
+        console.error('No se pudo obtener el stock por categoría');
+      }
+    },
+    error: (err) => {
+      console.error('Error al obtener stock por categoría', err);
+    }
+  });
+}
+
+// Método para obtener los productos más vendidos desde la API
+obtenerProductosMasVendidos(): void {
+  const apiUrl = 'http://localhost:3000/api/productos-mas-vendidos';  // URL del endpoint de la vista
+
+  this.http.get<any>(apiUrl).subscribe({
+    next: (response) => {
+      if (response.success) {
+        this.productosMasVendidos = response.productos;  // Almacena los productos más vendidos
+      } else {
+        console.error('No se pudieron obtener los productos más vendidos');
+      }
+    },
+    error: (err) => {
+      console.error('Error al obtener productos más vendidos', err);
+    }
+  });
+}
+
+
+
+// Método para cerrar el modal
+cerrarModal2(): void {
+  this.mostrarModal = false;
+}
+
+
+  // Método para obtener categorías con ventas mayores a 5000
+obtenerCategoriasMasVendidas(): void {
+const apiUrl = 'http://localhost:3000/api/categorias-mas-vendidas';
+
+this.http.get<any>(apiUrl).subscribe({
+  next: (response) => {
+    if (response.success) {
+      console.log('Categorías con ventas mayores a 5000:', response.categorias);
+      this.categoriasMasVendidas = response.categorias;  // Almacena los resultados
+    } else {
+      console.error('No se pudieron obtener las categorías más vendidas');
+    }
+  },
+  error: (err) => {
+    console.error('Error al obtener las categorías más vendidas:', err);
+  }
+});
 }
 
 
