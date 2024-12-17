@@ -4,12 +4,26 @@ import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+
+interface VentaRollup {
+  Nombre_Categoria: string;
+  Fecha_Pedido: string;
+  Total_Ventas: number;
+}
+
+interface UsuarioTop {
+  ID_Usuario: string;
+  Nombre_Usuario: string;
+  Total_Compras: number;
+  Total_Ventas: number;
+}
 
 @Component({
   selector: 'app-configuracion',
   standalone: true,
-  imports: [RouterModule, FormsModule, HttpClientModule],
+  imports: [RouterModule, FormsModule, HttpClientModule, CommonModule],
   templateUrl: './configuracion.component.html',
   styleUrl: './configuracion.component.css'
 })
@@ -79,6 +93,11 @@ export class ConfiguracionComponent {
 
   mostrarModal: boolean = false; // Estado para controlar si el modal está visible o no
   pedidos: any[] = []; // Array para almacenar los datos de los pedidos
+
+  
+  usuariosTop: UsuarioTop[] = [];
+  totalGeneral: UsuarioTop | null = null;
+  ventasRollup: VentaRollup[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -884,6 +903,44 @@ deleteMunicipality(id: number): void {
           }
 
 
+      obtenerVentasRollup() {
+        const url = 'http://localhost:3000/api/ventas/rollup';
+    
+        this.http.get<{success: boolean, ventasRollup: VentaRollup[]}>(url).subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.ventasRollup = response.ventasRollup;
+              console.log('Datos de ventas con ROLLUP:', this.ventasRollup);
+            }
+          },
+          error: (err) => {
+            console.error('Error al obtener ventas', err);
+          }
+        });
+      }
+
+
+      obtenerUsuariosTop() {
+        const url = 'http://localhost:3000/api/usuarios/top-compras-cube';
+    
+        this.http.get<{
+          success: boolean, 
+          usuariosTop: UsuarioTop[], 
+          totalGeneral: UsuarioTop
+        }>(url).subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.usuariosTop = response.usuariosTop;
+              this.totalGeneral = response.totalGeneral;
+            }
+          },
+          error: (err) => {
+            console.error('Error al obtener usuarios top', err);
+          }
+        });
+      }
+
+
   ngOnInit(): void {
     this.obtenerUsuarios(); // Al iniciar el componente, obtiene los usuarios
     this.obtenerCategorias(); // Carga inicial de categorías
@@ -892,5 +949,7 @@ deleteMunicipality(id: number): void {
     this.obtenerMunicipios(); //Se cargan los municipios al iniciar
     this.getPedidosDetalles();
     this.getPagosDetalles();
+    this.obtenerVentasRollup();
+    this.obtenerUsuariosTop();
   }
 }

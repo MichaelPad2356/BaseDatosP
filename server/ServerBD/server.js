@@ -90,7 +90,22 @@ app.post('/api/login', (req, res) => {
 
   // Endpoint para obtener los productos
 app.get('/api/productos', (req, res) => {
-  const query = 'SELECT * FROM producto';
+  //const query = 'SELECT * FROM producto';
+
+  const query = `
+  SELECT 
+    ID_Producto, 
+    Nombre, 
+    Descripcion, 
+    Precio, 
+    Stock, 
+    ID_Categoria, 
+    URL_Imagen, 
+    calcular_descuento(Precio, Stock) AS Precio_Con_Descuento
+  FROM 
+    producto
+`;
+
 
   db.query(query, (err, results) => {
     if (err) {
@@ -833,3 +848,223 @@ app.get('/api/ventas-por-categoria', (req, res) => {
           res.json({ cantidad: results[0].cantidad });
       });
   });
+
+
+  //********************************************************************************************************************* */
+  // Ruta para obtener los pedidos completos desde la vista
+app.get('/api/pedidos', (req, res) => {
+  const query = 'SELECT * FROM vista_pedidos_completa'; // Consulta la vista directamente
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al consultar la vista:', err);
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Error al obtener los pedidos completos.' 
+      });
+    }
+
+    res.status(200).json({ 
+      success: true, 
+      pedidos: results // Devuelve los pedidos obtenidos de la vista
+    });
+  });
+});
+
+
+
+// Endpoint para obtener productos más vendidos
+app.get('/api/productos-mas-vendidos', (req, res) => {
+  const query = 'SELECT * FROM productos_mas_vendidos';  // Usando la vista con los productos más vendidos
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener productos más vendidos:', err);
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Error al obtener productos más vendidos.' 
+      });
+    }
+    
+    // Devolver resultados con un formato compatible
+    res.status(200).json({ 
+      success: true,
+      productos: results
+    });
+  });
+});
+
+
+
+// Endpoint para obtener categorías con ventas mayores a 5000
+app.get('/api/categorias-mas-vendidas', (req, res) => {
+  const query = `
+    SELECT p.ID_Categoria, SUM(dp.Cantidad * dp.Precio_Unitario) AS Total_Ventas
+    FROM detalle_pedido dp
+    JOIN producto p ON dp.ID_Producto = p.ID_Producto
+    GROUP BY p.ID_Categoria
+    HAVING SUM(dp.Cantidad * dp.Precio_Unitario) > 5000
+  `;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener las categorías más vendidas:', err);
+      return res.status(500).json({ success: false, message: 'Error al obtener las categorías más vendidas.' });
+    }
+
+    // Enviar respuesta con los resultados
+    res.status(200).json({ success: true, categorias: results });
+  });
+});
+
+// Vista de stock por categoría
+app.get('/api/reportes/stock-categoria', (req, res) => {
+  const query = 'SELECT * FROM Vista_Stock_Categoria';  // Consulta SQL
+  db.query(query, (err, results) => {
+    if (err) {
+      return res.status(500).json({ success: false, message: 'Error al obtener datos.' });
+    }
+    res.status(200).json({ success: true, stock: results });
+  });
+});
+
+//********************************************************************************************************************************* */
+
+// Endpoint para obtener ventas con ROLLUP
+app.get('/api/ventas/rollup', (req, res) => {
+  const query = `
+    SELECT COALESCE(c.Nombre_Categoria, 'TOTAL') AS Nombre_Categoria, 
+           COALESCE(pd.Fecha_Pedido, 'TOTAL') AS Fecha_Pedido, 
+           SUM(dp.Cantidad * dp.Precio_Unitario) AS Total_Ventas 
+    FROM detalle_pedido dp 
+    INNER JOIN producto p ON dp.ID_Producto = p.ID_Producto 
+    INNER JOIN categoria c ON p.ID_Categoria = c.ID_Categoria 
+    INNER JOIN pedido pd ON dp.ID_Pedido = pd.ID_Pedido 
+    GROUP BY c.Nombre_Categoria, pd.Fecha_Pedido WITH ROLLUP
+  `;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener ventas con ROLLUP:', err);
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Error al obtener ventas con ROLLUP.' 
+      });
+    }
+    
+    // Devolver resultados con un formato compatible
+    res.status(200).json({ 
+      success: true,
+      ventasRollup: results
+    });
+  });
+});
+
+
+
+app.get('/api/usuarios/top-compras-cube', (req, res) => {
+  const query = `
+    SELECT 
+      COALESCE(u.ID_Usuario, 'TOTAL') AS ID_Usuario,
+      COALESCE(u.Nombre, 'TOTAL') AS Nombre_Usuario,
+      COUNT(p.ID_Pedido) AS Total_Compras,
+      SUM(dp.Cantidad * dp.Precio_Unitario) AS Total_Ventas
+    FROM pedido p
+    INNER JOIN usuario u ON p.ID_Usuario = u.ID_Usuario
+    INNER JOIN detalle_pedido dp ON p.ID_Pedido = dp.ID_Pedido
+    GROUP BY u.ID_Usuario, u.Nombre
+    ORDER BY Total_Compras DESC
+
+  `;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener usuarios top:', err);
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Error al obtener usuarios top.' 
+      });
+    }
+    
+    // Filtrar el resultado para obtener el top de usuarios y el total general
+    const usuariosTop = results.filter(
+      result => result.ID_Usuario !== 'TOTAL'
+    ).slice(0, 5); // Top 5 usuarios
+
+    const totalGeneral = results.find(
+      result => result.ID_Usuario === 'TOTAL'
+    );
+
+    res.status(200).json({ 
+      success: true,
+      usuariosTop: usuariosTop,
+      totalGeneral: totalGeneral
+    });
+  });
+});
+
+//************************************************************************************************************************** */
+app.get('/api/union-productos', (req, res) => {
+  console.log('Solicitud recibida a /api/union-productos');
+  console.log('Query parameters:', req.query);
+
+  const { fechaInicio, fechaFin } = req.query;
+
+  if (!fechaInicio || !fechaFin) {
+    console.log('Fechas faltantes');
+    return res.status(400).json({ error: 'Las fechas de inicio y fin son requeridas' });
+  }
+
+  // Llamada al procedimiento almacenado
+  const query = 'CALL InformeUnionProductos(?, ?)';
+  
+  db.query(query, [fechaInicio, fechaFin], (err, results) => {
+    if (err) {
+      console.error('Error en la consulta:', err);
+      return res.status(500).json({
+        error: 'Hubo un error al ejecutar la consulta',
+        details: err.message
+      });
+    }
+
+    console.log('Resultados obtenidos:', results);
+    res.json(results[0]); // Devolvemos la primera parte del resultado
+  });
+});
+
+
+/*app.get('/api/ventas-por-categoria', (req, res) => {
+  console.log('Solicitud recibida a /api/ventas-por-categoria');
+  console.log('Query parameters:', req.query);
+
+  const { fechaInicio, fechaFin } = req.query;
+
+  // Validación de parámetros
+  if (!fechaInicio || !fechaFin) {
+    console.log('Fechas faltantes');
+    return res.status(400).json({ error: 'Las fechas de inicio y fin son requeridas' });
+  }
+
+  // Llamada al procedimiento almacenado
+  const query = 'CALL InformeVentasPorCategoria(?, ?)';
+  db.query(query, [fechaInicio, fechaFin], (err, results) => {
+    if (err) {
+      console.error('Error en la consulta:', err);
+      return res.status(500).json({ 
+        error: 'Hubo un error al ejecutar la consulta',
+        details: err.message 
+      });
+    }
+
+    console.log('Resultados obtenidos:', results);
+
+    // Reformateo de resultados si es necesario
+    const datos = results[0].map((fila) => ({
+      categoria: fila.Nombre_Categoria,
+      totalVentas: fila.TotalVentas,
+      promedioVentas: fila.PromedioVentasPorPedido
+    }));
+
+    res.json(datos); 
+  });
+});*/

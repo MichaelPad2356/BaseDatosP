@@ -104,6 +104,13 @@
     box-shadow: 0 8px 16px rgba(217, 83, 79, 0.2); /* Sombra con tono rojo */
   }
   
+  .modal-content2 {
+    background-color: #1c1c1c; /* Fondo más oscuro que el card original */
+    border: 2px solid #d9534f; /* Borde rojo prominente */
+    border-radius: 12px; /* Bordes redondeados suaves */
+    box-shadow: 0 8px 16px rgba(217, 83, 79, 0.2); /* Sombra con tono rojo */
+  }
+
   .modal-header {
     background-color: rgba(217, 83, 79, 0.1); /* Fondo tenue rojo */
     border-bottom: 1px solid rgba(217, 83, 79, 0.3);
@@ -215,6 +222,17 @@
     max-width: 500px;
   }
   
+  #editProductModal .modal-content2 {
+    background-color: #2c2c2c; 
+    border: 2px solid #d9534f;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1);
+    margin: 10% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+  }
+
   #editProductModal h2 {
     color: #d9534f;
     text-align: center;
@@ -423,6 +441,11 @@
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   }
 
+  .modal-content2 {
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
   .modal-body .table {
     margin-bottom: 0;
   }
