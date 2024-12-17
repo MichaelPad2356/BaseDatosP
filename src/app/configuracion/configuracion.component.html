@@ -560,18 +560,18 @@
             <!--******************************************************************************************************************************-->
             <div class="configuracion">
               <h2>Informe de Ventas por Categoría</h2>
-
+            
               <!-- Formulario para ingresar las fechas -->
               <form (ngSubmit)="consultarVentas()" #fechaForm="ngForm">
                 <label for="fechaInicio">Fecha de Inicio:</label>
                 <input type="date" id="fechaInicio" name="fechaInicio" [(ngModel)]="fechaInicio" required>
-
+            
                 <label for="fechaFin">Fecha de Fin:</label>
                 <input type="date" id="fechaFin" name="fechaFin" [(ngModel)]="fechaFin" required>
-
+            
                 <button type="submit">Consultar</button>
               </form>
-
+            
               <!-- Tabla para mostrar los resultados -->
               <div id="resultados">
                 @if (resultados.length > 0) {
@@ -580,13 +580,15 @@
                       <tr>
                         <th>Categoría</th>
                         <th>Total Ventas</th>
+                        <th>Promedio Ventas</th> <!-- Nueva columna -->
                       </tr>
                     </thead>
                     <tbody>
                       @for (item of resultados; track item) {
                         <tr>
-                          <td>{{ item.Nombre_Categoria }}</td>
-                          <td>{{ item.TotalVentas }}</td>
+                          <td>{{ item.categoria }}</td> <!-- Actualizado para reflejar los nombres del backend -->
+                          <td>{{ item.totalVentas }}</td>
+                          <td>{{ item.promedioVentas | number: '1.2-2' }}</td> <!-- Formateo opcional -->
                         </tr>
                       }
                     </tbody>
@@ -598,6 +600,46 @@
               </div>
             </div>
 
+            <div class="configuracion">
+              <h2>Informe de Productos Combinados</h2>
+            
+              <!-- Formulario para ingresar las fechas -->
+              <form (ngSubmit)="consultarUnionProductos()" #fechaForm="ngForm">
+                <label for="fechaInicio">Fecha de Inicio:</label>
+                <input type="date" id="fechaInicio" name="fechaInicio" [(ngModel)]="fechaInicio" required>
+            
+                <label for="fechaFin">Fecha de Fin:</label>
+                <input type="date" id="fechaFin" name="fechaFin" [(ngModel)]="fechaFin" required>
+            
+                <button type="submit">Consultar</button>
+              </form>
+            
+              <!-- Tabla para mostrar los resultados -->
+              <div id="resultados">
+                @if (resultados.length > 0) {
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Nombre del Producto</th>
+                        <th>Categoría</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (item of resultados; track item) {
+                        <tr>
+                          <td>{{ item.Nombre }}</td>
+                          <td>{{ item.Nombre_Categoria }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                }
+                @if (resultados.length === 0) {
+                  <p>No se encontraron resultados para el rango de fechas indicado.</p>
+                }
+              </div>
+            </div>
+            
 
 
             <div class="configuracion-container">

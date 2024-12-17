@@ -39,7 +39,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'tiendaenlinea'  // Asegúrate de poner el nombre correcto de tu base de datos
+  database: 'tiendaenlinea2'  // Asegúrate de poner el nombre correcto de tu base de datos
 });
 
 db.connect((err) => {
@@ -780,6 +780,7 @@ app.get('/api/ventas-por-categoria', (req, res) => {
 
   const { fechaInicio, fechaFin } = req.query;
 
+  // Validación de parámetros
   if (!fechaInicio || !fechaFin) {
     console.log('Fechas faltantes');
     return res.status(400).json({ error: 'Las fechas de inicio y fin son requeridas' });
@@ -787,7 +788,6 @@ app.get('/api/ventas-por-categoria', (req, res) => {
 
   // Llamada al procedimiento almacenado
   const query = 'CALL InformeVentasPorCategoria(?, ?)';
-
   db.query(query, [fechaInicio, fechaFin], (err, results) => {
     if (err) {
       console.error('Error en la consulta:', err);
@@ -797,16 +797,47 @@ app.get('/api/ventas-por-categoria', (req, res) => {
       });
     }
 
-
-
-
-
-
     console.log('Resultados obtenidos:', results);
-    res.json(results[0]); 
+
+    // Reformateo de resultados si es necesario
+    const datos = results[0].map((fila) => ({
+      categoria: fila.Nombre_Categoria,
+      totalVentas: fila.TotalVentas,
+      promedioVentas: fila.PromedioVentasPorPedido
+    }));
+
+    res.json(datos); 
   });
 });
 
+
+app.get('/api/union-productos', (req, res) => {
+  console.log('Solicitud recibida a /api/union-productos');
+  console.log('Query parameters:', req.query);
+
+  const { fechaInicio, fechaFin } = req.query;
+
+  if (!fechaInicio || !fechaFin) {
+    console.log('Fechas faltantes');
+    return res.status(400).json({ error: 'Las fechas de inicio y fin son requeridas' });
+  }
+
+  // Llamada al procedimiento almacenado
+  const query = 'CALL InformeUnionProductos(?, ?)';
+  
+  db.query(query, [fechaInicio, fechaFin], (err, results) => {
+    if (err) {
+      console.error('Error en la consulta:', err);
+      return res.status(500).json({
+        error: 'Hubo un error al ejecutar la consulta',
+        details: err.message
+      });
+    }
+
+    console.log('Resultados obtenidos:', results);
+    res.json(results[0]); // Devolvemos la primera parte del resultado
+  });
+});
 
 
 
