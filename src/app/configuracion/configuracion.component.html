@@ -651,6 +651,71 @@
 
 
 
+            <!-- Ventana modal para mostrar los pedidos -->
+            <div class="text-center mb-4">
+              <button class="btn btn-primary" style="background-color: #28a745;" (click)="abrirModal()">Ver Pedidos</button>
+            </div>
+            
+            <!-- Ventana modal para mostrar los pedidos -->
+            <div class="modal" tabindex="-1" [class.show]="mostrarModal" [style.display]="mostrarModal ? 'block' : 'none'">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Pedidos Completos</h5>
+                    <button type="button" class="btn-close" (click)="cerrarModal()"></button>
+                  </div>
+                  <div class="modal-body">
+                    @if (pedidos.length > 0) {
+                      <div>
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr>
+                              <th>Nombre Usuario</th>
+                              <th>Correo</th>
+                              <th>Producto</th>
+                              <th>Descripción</th>
+                              <th>Precio</th>
+                              <th>Cantidad</th>
+                              <th>Monto Total</th>
+                              <th>Fecha Pedido</th>
+                              <th>Estado Pedido</th>
+                              <th>Método de Pago</th>
+                              <th>Dirección Envío</th>
+                              <th>Estado Envío</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @for (pedido of pedidos; track pedido) {
+                              <tr>
+                                <td>{{ pedido.Nombre_Usuario }}</td>
+                                <td>{{ pedido.Correo_Usuario }}</td>
+                                <td>{{ pedido.Producto_Nombre }}</td>
+                                <td>{{ pedido.Producto_Descripcion }}</td>
+                                <td>${{ pedido.Producto_Precio }}</td>
+                                <td>{{ pedido.Cantidad }}</td>
+                                <td>${{ pedido.Pago_Monto }}</td>
+                                <td>{{ pedido.Fecha_Pedido }}</td>
+                                <td>{{ pedido.Estado_Pedido }}</td>
+                                <td>{{ pedido.Metodo_Pago }}</td>
+                                <td>{{ pedido.Direccion_Envio }}</td>
+                                <td>{{ pedido.Estado_Envio }}</td>
+                              </tr>
+                            }
+                          </tbody>
+                        </table>
+                      </div>
+                    } @else {
+                      <p>No hay pedidos disponibles.</p>
+                    }
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
 
 
             <!-- configuracion.component.html -->

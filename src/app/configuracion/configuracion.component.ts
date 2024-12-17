@@ -77,6 +77,9 @@ export class ConfiguracionComponent {
 
   //******************************************************************************************* */
 
+  mostrarModal: boolean = false; // Estado para controlar si el modal está visible o no
+  pedidos: any[] = []; // Array para almacenar los datos de los pedidos
+
   constructor(private http: HttpClient) {}
 
   // Método para obtener los usuarios
@@ -848,6 +851,37 @@ deleteMunicipality(id: number): void {
     });
 }
 
+
+//************************************************************************************************************ */
+// Método para abrir el modal
+      abrirModal(): void {
+        this.mostrarModal = true;
+        this.obtenerPedidos(); // Cargar los pedidos cuando se abre el modal
+      }
+
+      // Método para cerrar el modal
+      cerrarModal(): void {
+        this.mostrarModal = false;
+      }
+
+        // Método para obtener los pedidos desde el servidor
+        obtenerPedidos(): void {
+          const apiUrl = 'http://localhost:3000/api/pedidos'; // Cambia la URL si es necesario
+        
+          this.http.get<any>(apiUrl).subscribe({
+            next: (response) => {
+              if (response.success) {
+                this.pedidos = response.pedidos; // Asegúrate de usar el nombre correcto del campo
+                console.log(this.pedidos); // Verifica en la consola que los datos se carguen correctamente
+              } else {
+                console.error('No se pudieron obtener los pedidos:', response.message);
+              }
+            },
+            error: (err) => {
+              console.error('Error al obtener pedidos:', err);
+            }
+            });
+          }
 
 
   ngOnInit(): void {
